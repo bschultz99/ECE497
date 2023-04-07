@@ -3,22 +3,58 @@ from planetmint_driver.crypto import generate_keypair
 from ipld import marshal, multihash
 import time
 plntmnt = Planetmint('https://test.ipdb.io')
-alice = generate_keypair()
-tx = plntmnt.transactions.prepare(
-    operation='CREATE',
-    signers=alice.public_key,
-    assets=[
-        {'data': 
-            multihash(marshal({'message': 'Blockchain all the things!'}))
-            }   
-    ]
-)
-signed_tx = plntmnt.transactions.fulfill(tx, private_keys=alice.private_key)
-print(plntmnt.transactions.send_commit(signed_tx))
-tid = signed_tx['id']
-block_height = plntmnt.blocks.get(txid='92c731f299136039f880395918e1194a2971c72d732fa0aaa71013c2f44fb4c4') #signed_tx['id'])
-time.sleep(15)
-print(block_height)
 
+def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None, conditions=None): 
+    fixed_data = {
+        'data': {
+            'patient': {
+                'name': name,
+                'dob': dob,
+                'id': id,
+               },
+           },
+       }
 
-def 
+    meta_data = {
+        'data': {
+            'patient': {
+                'age': age,
+                'weight': weight,
+                'height': height,
+                'gender': gender,
+                'conditions': conditions,
+            },
+        },
+    }
+    patient = generate_keypair()
+    tx = plntmnt.transactions.prepare(
+        operation = 'CREATE',
+        singers = patient.public_key,
+        assets = fixed_data,
+        metadata = meta_data, 
+    )
+    signed_tx = plntmnt.transactions.fulfill(tx, private_key=patient.private_key)
+    plntmnt.transactions.send_commit(signed_tx)
+    txid = signed_tx['id']
+    return patient, txid
+
+def updatePatient(patient, txid, age=None, weight=None, height=None, gender=None, conditions=None):
+    meta_data = {
+        'data': {
+            'patient': {
+                'age': age,
+                'weight': weight,
+                'height': height,
+                'gender': gender,
+                'conditions': conditions,
+            },
+        },
+    }
+    tx = plntmnt.transactions.prepare(
+        operation = 'UPDATE',
+        singers = patient.public_key,
+        asset = txid,
+        metadata = meta_data,
+    )
+    signed_tx = plntmnt.transactions.fulfill(tx, private_key=patient.private_key)
+    plntmnt.transactions.send_commit(signed_tx)
