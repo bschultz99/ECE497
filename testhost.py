@@ -18,6 +18,6 @@ tx = plntmnt.transactions.prepare(
 signed_tx = plntmnt.transactions.fulfill(tx, private_keys=alice.private_key)
 print(plntmnt.transactions.send_commit(signed_tx))
 #tid = signed_tx['id']
-#block_height = plntmnt.blocks.get(txid='92c731f299136039f880395918e1194a2971c72d732fa0aaa71013c2f44fb4c4') #signed_tx['id'])
 #time.sleep(15)
+#block_height = plntmnt.blocks.get(txid='92c731f299136039f880395918e1194a2971c72d732fa0aaa71013c2f44fb4c4') #signed_tx['id'])
 #print(block_height)
