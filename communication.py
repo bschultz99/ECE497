@@ -2,6 +2,7 @@ from planetmint_driver import Planetmint
 from planetmint_driver.crypto import generate_keypair
 from ipld import marshal, multihash
 import time
+import Sensors
 plntmnt = Planetmint('https://test.ipdb.io')
 #plntmnt = Planetmint('http://localhost:9984')
 def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None, conditions=None): 
@@ -23,6 +24,9 @@ def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None
                 'height': height,
                 'gender': gender,
                 'conditions': conditions,
+                'heartrate': Sensors.heart_rate(),
+                'temperature': Sensors.temperature(),
+                'glucose': Sensors.glucose_level(),
             },
         }
     }))

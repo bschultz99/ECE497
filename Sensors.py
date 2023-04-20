@@ -33,6 +33,6 @@ def glucose_level():
         "glucose_level": glucose_level
     }
 
-heart_rate()
-temperature()
-glucose_level()
+#heart_rate()
+#temperature()
+#glucose_level()
