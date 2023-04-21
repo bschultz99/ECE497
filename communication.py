@@ -37,7 +37,7 @@ def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None
         metadata = meta_data
     )
     signed_tx = plntmnt.transactions.fulfill(tx, private_keys=patient.private_key)
-    print(plntmnt.transactions.send_commit(signed_tx))
+    plntmnt.transactions.send_commit(signed_tx)
     txid = signed_tx['id']
     return patient, txid
 
