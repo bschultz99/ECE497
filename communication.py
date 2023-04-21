@@ -4,7 +4,6 @@ from ipld import marshal, multihash
 import time
 import Sensors
 plntmnt = Planetmint('https://test.ipdb.io')
-#plntmnt = Planetmint('http://localhost:9984')
 def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None, conditions=None): 
     fixed_data = [{
         'data': multihash(marshal({
@@ -62,5 +61,3 @@ def updatePatient(patient, txid, age=None, weight=None, height=None, gender=None
     )
     signed_tx = plntmnt.transactions.fulfill(tx, private_key=patient.private_key)
     plntmnt.transactions.send_commit(signed_tx)
-
-print(createPatient('bob', '09/20/45', 'asd123', 56, 186, 156, "Male", "Cancer"))
