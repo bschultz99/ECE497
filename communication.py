@@ -4,7 +4,7 @@ from ipld import marshal, multihash
 import time
 import Sensors
 plntmnt = Planetmint('https://test.ipdb.io')
-def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None, conditions=None): 
+def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None, conditions=None, heart=None, temp=None, glucose=None): 
     fixed_data = [{
         'data': multihash(marshal({
             'patient': {
@@ -23,9 +23,9 @@ def createPatient(name, dob, id, age=None, weight=None, height=None, gender=None
                 'height': height,
                 'gender': gender,
                 'conditions': conditions,
-                'heartrate': Sensors.heart_rate(),
-                'temperature': Sensors.temperature(),
-                'glucose': Sensors.glucose_level(),
+                'heartrate': heart,
+                'temperature': temp,
+                'glucose': glucose,
             },
         }
     }))
@@ -61,3 +61,7 @@ def updatePatient(patient, txid, age=None, weight=None, height=None, gender=None
     )
     signed_tx = plntmnt.transactions.fulfill(tx, private_key=patient.private_key)
     plntmnt.transactions.send_commit(signed_tx)
+
+def retrievePatient(txid):
+    patient = plntmnt.transactions.retrieve(txid)
+    return patient
